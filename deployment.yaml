@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uts-app-deployment
+  labels:
+    app: uts-web-app
+spec:
+  replicas: 3 # Kubernetes akan otomatis menyalakan 3 replika container sekaligus!
+  selector:
+    matchLabels:
+      app: uts-web-app
+  template:
+    metadata:
+      labels:
+        app: uts-web-app
+    spec:
+      containers:
+      - name: uts-container
+        image: uts-app:v1 # Menggunakan Docker image yang kita buat di Bagian 3
+        imagePullPolicy: Never # Menginstruksikan K8s menggunakan image lokal
+        ports:
+        - containerPort: 3000
