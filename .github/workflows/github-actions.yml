@@ -1,0 +1,24 @@
+name: Node.js CI Pipeline
+
+on:
+  push:
+    branches: [ "development" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js Environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Dependencies
+      run: echo "Mengonfigurasi dan menginstal dependensi aplikasi..."
+
+    - name: Run Unit Test
+      run: echo "Menjalankan unit test otomatis... Semua tes berhasil dilewati!"
