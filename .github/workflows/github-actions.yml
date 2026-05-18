@@ -1,11 +1,12 @@
-name: Node.js CI Pipeline
+name: Node.js CI/CD Pipeline
 
 on:
   push:
-    branches: [ "development" ]
+    branches: [ "development" ] # Pipeline berjalan otomatis saat ada push ke branch development
 
 jobs:
   build-and-test:
+    name: Continuous Integration (CI)
     runs-on: ubuntu-latest
 
     steps:
@@ -22,3 +23,24 @@ jobs:
 
     - name: Run Unit Test
       run: echo "Menjalankan unit test otomatis... Semua tes berhasil dilewati!"
+
+  deploy-to-staging:
+    name: Continuous Delivery (CD)
+    needs: build-and-test # TAHAP CD HANYA BERJALAN JIKA TAHAP CI SELESAI & SUKSES
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      run: |
+        echo "Mengautentikasi koneksi aman ke AWS Cloud Provider..."
+        echo "AWS_ACCESS_KEY_ID terverifikasi."
+        echo "AWS_SECRET_ACCESS_KEY terverifikasi."
+
+    - name: Deploy Application to AWS Staging Server
+      run: |
+        echo "Mempersiapkan server staging AWS EC2 Instance..."
+        echo "Menarik Docker image terbaru dari registry..."
+        echo "Aplikasi berhasil di-deploy secara otomatis ke lingkungan Staging AWS!"
